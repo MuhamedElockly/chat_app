@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
-import 'package:chat_app/screens/register.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +30,7 @@ class Login extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'LOGIN',
+                  'REGISTER',
                   style: TextStyle(
                     fontSize: 24,
                     color: Colors.white,
@@ -56,7 +53,7 @@ class Login extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            CustomButton(buttonText: 'LOGIN'),
+            CustomButton(buttonText: 'REGISTER'),
             SizedBox(
               height: 10,
             ),
@@ -69,22 +66,10 @@ class Login extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return RegisterPage();
-                        },
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Register',
-                    style: TextStyle(color: Color(0XFFC7EDE6), fontSize: 16),
-                  ),
-                )
+                Text(
+                  'Register',
+                  style: TextStyle(color: Color(0XFFC7EDE6), fontSize: 16),
+                ),
               ],
             ),
             Spacer(
