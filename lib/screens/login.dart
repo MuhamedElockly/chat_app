@@ -12,7 +12,11 @@ class Login extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Spacer(
+              flex: 2,
+            ),
             Image.asset('assets/images/scholar.png'),
             Text(
               'Scholar Chat',
@@ -22,20 +26,57 @@ class Login extends StatelessWidget {
                 fontFamily: 'pacifico',
               ),
             ),
-            Text(
-              'LOGIN',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.white,
-              ),
+            Spacer(
+              flex: 1,
+            ),
+            Row(
+              children: [
+                Text(
+                  'LOGIN',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
             ),
             CustomTextField(
               hintText: 'Email',
             ),
+            SizedBox(
+              height: 10,
+            ),
             CustomTextField(
               hintText: 'Passward',
             ),
+            SizedBox(
+              height: 20,
+            ),
             CustomButton(buttonText: 'LOGIN'),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'don\'t have an account ? ',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  'Register',
+                  style: TextStyle(color: Color(0XFFC7EDE6), fontSize: 16),
+                )
+              ],
+            ),
+            Spacer(
+              flex: 2,
+            ),
           ],
         ),
       ),
