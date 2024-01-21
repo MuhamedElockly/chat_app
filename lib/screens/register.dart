@@ -65,11 +65,21 @@ class RegisterPage extends StatelessWidget {
               height: 20,
             ),
             CustomButton(
-                onTap: () {
-                  var auth = FirebaseAuth.instance;
-                  auth.createUserWithEmailAndPassword(
-                      email: email!, password: passward!);
-                  print('email$email and passward$passward');
+                onTap: () async {
+                  try {
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                            email: email!, password: passward!);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          e.toString(),
+                        ),
+                      ),
+                    );
+                  }
+                  // print('email$email and passward$passward');
                 },
                 buttonText: 'REGISTER'),
             SizedBox(
