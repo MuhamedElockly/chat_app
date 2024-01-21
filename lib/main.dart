@@ -25,7 +25,7 @@ class ChatApp extends StatelessWidget {
         'ChatPage': (context) => ChatPage(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ChatPage',
+      initialRoute: 'LoginPage',
     );
   }
 }

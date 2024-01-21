@@ -53,11 +53,11 @@ class ChatPage extends StatelessWidget {
                     itemCount: messagesList.length,
                     itemBuilder: (context, index) {
                       if (messagesList[index].userId == uid) {
-                        return CustomChatPubble(messagesList[index]);
+                        return CustomChatPubbleForFriend(messagesList[index]);
 
                         // CustomChatPubbleForFriend(messagesList[index]);
                       } else {
-                        return CustomChatPubbleForFriend(messagesList[index]);
+                        return CustomChatPubble(messagesList[index]);
                       }
                     },
                   ),

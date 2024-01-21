@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 10,
                 ),
-                CustomTextField(
+                CustomTextField(obscureText: false,
                   hintText: 'Email',
                   onChanged: (email) {
                     this.email = email;
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 10,
                 ),
-                CustomTextField(
+                CustomTextField(obscureText: true,
                   hintText: 'Passward',
                   onChanged: (password) {
                     this.password = password;
