@@ -6,7 +6,12 @@ class CustomTextField extends StatelessWidget {
   Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'This feild can\'t be empty';
+        }
+      },
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
