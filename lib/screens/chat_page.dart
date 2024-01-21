@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
+  final scrollController = ScrollController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
@@ -42,6 +43,7 @@ class ChatPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
+                    controller: scrollController,
                     itemCount: messagesList.length,
                     itemBuilder: (context, index) {
                       return CustomChatPubble(messagesList[index]);
@@ -60,6 +62,11 @@ class ChatPage extends StatelessWidget {
                         },
                       );
                       controller.clear();
+                      scrollController.animateTo(
+                        scrollController.position.maxScrollExtent,
+                        duration: Duration(milliseconds: 10),
+                        curve: Curves.easeIn,
+                      );
                     },
                     decoration: InputDecoration(
                       hintText: 'Send Message',
