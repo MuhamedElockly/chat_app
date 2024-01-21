@@ -92,12 +92,6 @@ class _LoginPageState extends State<LoginPage> {
                       try {
                         await logInUser();
                         showSnackBar(context, 'Success');
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'email-already-in-use')
-                          showSnackBar(
-                            context,
-                            'The account already exist for that email',
-                          );
                       } catch (e) {
                         showSnackBar(context, e.toString());
                       }
@@ -145,6 +139,4 @@ class _LoginPageState extends State<LoginPage> {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email!, password: password!);
   }
-
- 
 }
