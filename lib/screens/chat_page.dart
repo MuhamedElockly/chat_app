@@ -1,12 +1,16 @@
 import 'package:chat_app/constants.dart';
+import 'package:chat_app/helper/show_snack_bar.dart';
 import 'package:chat_app/models/message_model.dart';
 import 'package:chat_app/widgets/custo_chat_pubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
   final scrollController = ScrollController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser;
+
   CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
   TextEditingController controller = TextEditingController();
@@ -15,6 +19,7 @@ class ChatPage extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: messages.orderBy(kCreatedAt, descending: true).snapshots(),
       builder: (context, snapshot) {
+        final uid = user!.uid;
         if (snapshot.hasData) {
           List<MessageModel> messagesList = [];
           for (int i = 0; i < snapshot.data!.docs.length; i++) {
@@ -47,7 +52,13 @@ class ChatPage extends StatelessWidget {
                     controller: scrollController,
                     itemCount: messagesList.length,
                     itemBuilder: (context, index) {
-                      return CustomChatPubble(messagesList[index]);
+                      if (messagesList[index].userId == uid) {
+                        return CustomChatPubble(messagesList[index]);
+
+                        // CustomChatPubbleForFriend(messagesList[index]);
+                      } else {
+                        return CustomChatPubbleForFriend(messagesList[index]);
+                      }
                     },
                   ),
                 ),
@@ -60,6 +71,7 @@ class ChatPage extends StatelessWidget {
                         {
                           'message': value,
                           'createdAt': DateTime.now(),
+                          'userId': uid
                         },
                       );
                       controller.clear();
