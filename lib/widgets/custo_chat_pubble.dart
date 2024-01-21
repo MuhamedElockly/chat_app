@@ -1,11 +1,10 @@
 import 'package:chat_app/constants.dart';
+import 'package:chat_app/models/message_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomChatPubble extends StatelessWidget {
-  const CustomChatPubble({
-    super.key,
-  });
-
+  const CustomChatPubble(this.message);
+  final MessageModel message;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -22,7 +21,7 @@ class CustomChatPubble extends StatelessWidget {
           ),
         ),
         child: Text(
-          'I\'m Mohamed Elockly',
+          message.message,
           style: TextStyle(
             color: Colors.white,
           ),

@@ -5,7 +5,7 @@ class MessageModel {
 
   MessageModel(this.message);
 
-  factory MessageModel.fromJson(Map<String, dynamic> jsonData) {
+  factory MessageModel.fromJson( jsonData) {
     return MessageModel(jsonData[kMessage]);
   }
 }
