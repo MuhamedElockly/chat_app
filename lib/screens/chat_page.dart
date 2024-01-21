@@ -24,9 +24,11 @@ class ChatPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: CustomChatPubble(),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return CustomChatPubble();
+        },
+      ),
     );
   }
 }
-
-
