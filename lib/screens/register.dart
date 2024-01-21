@@ -89,6 +89,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         try {
                           await registerUser();
                           showSnackBar(context, 'Success');
+                          Navigator.pushNamed(context, 'ChatPage');
+                          //Navigator.pop(context);
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'email-already-in-use')
                             showSnackBar(
@@ -137,7 +139,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
 
   Future<void> registerUser() async {
     UserCredential userCredential = await FirebaseAuth.instance

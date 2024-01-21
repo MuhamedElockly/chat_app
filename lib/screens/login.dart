@@ -92,6 +92,13 @@ class _LoginPageState extends State<LoginPage> {
                       try {
                         await logInUser();
                         showSnackBar(context, 'Success');
+                        Navigator.pushNamed(context, 'ChatPage');
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          showSnackBar(context, 'User not found');
+                        } else if (e.code == 'wrong-password') {
+                          showSnackBar(context, 'Wrong password');
+                        }
                       } catch (e) {
                         showSnackBar(context, e.toString());
                       }
