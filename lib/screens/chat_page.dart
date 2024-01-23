@@ -52,6 +52,7 @@ class ChatPage extends StatelessWidget {
                     controller: scrollController,
                     itemCount: messagesList.length,
                     itemBuilder: (context, index) {
+                      
                       if (messagesList[index].userId == uid) {
                         return CustomChatPubbleForFriend(messagesList[index]);
 

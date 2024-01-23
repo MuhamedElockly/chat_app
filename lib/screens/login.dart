@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
