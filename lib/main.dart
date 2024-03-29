@@ -1,9 +1,12 @@
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/screens/chat_page.dart';
+import 'package:chat_app/screens/cubits/LogInCubit/log_in_cubit.dart';
 import 'package:chat_app/screens/login.dart';
 import 'package:chat_app/screens/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,14 +21,17 @@ class ChatApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        'LoginPage': (context) => LoginPage(),
-        'RegisterPage': (context) => RegisterPage(),
-        'ChatPage': (context) => ChatPage(),
-      },
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'LoginPage',
+    return BlocProvider(
+      create: (context) => LogInCubit(),
+      child: MaterialApp(
+        routes: {
+          'LoginPage': (context) => LoginPage(),
+          'RegisterPage': (context) => RegisterPage(),
+          'ChatPage': (context) => ChatPage(),
+        },
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'LoginPage',
+      ),
     );
   }
 }

@@ -1,19 +1,16 @@
-
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
+import 'package:chat_app/screens/chat_page.dart';
+import 'package:chat_app/screens/cubits/LogInCubit/log_in_cubit.dart';
 import 'package:chat_app/screens/register.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   String? email;
 
   String? password;
@@ -24,122 +21,118 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: isLoading,
-      child: Scaffold(
-        backgroundColor: kPrimaryColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Spacer(
-                  flex: 2,
-                ),
-                Image.asset('assets/images/scholar.png'),
-                Text(
-                  'Scholar Chat',
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.white,
-                    fontFamily: 'pacifico',
+    return BlocListener<LogInCubit, LogInState>(
+      listener: (context, state) {
+        if (state is LogInLoading) {
+          isLoading = true;
+        } else if (state is LogInSuccess) {
+          Navigator.pushNamed(context, 'ChatPage');
+        } else if (state is LogInFailure) {
+          showSnackBar(context, 'Wrong password');
+        }
+      },
+      child: ModalProgressHUD(
+        inAsyncCall: isLoading,
+        child: Scaffold(
+          backgroundColor: kPrimaryColor,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Spacer(
+                    flex: 2,
                   ),
-                ),
-                Spacer(
-                  flex: 1,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'LOGIN',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
+                  Image.asset('assets/images/scholar.png'),
+                  Text(
+                    'Scholar Chat',
+                    style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.white,
+                      fontFamily: 'pacifico',
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(obscureText: false,
-                  hintText: 'Email',
-                  onChanged: (email) {
-                    this.email = email;
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(obscureText: true,
-                  hintText: 'Passward',
-                  onChanged: (password) {
-                    this.password = password;
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomButton(
-                  buttonText: 'LOGIN',
-                  onTap: () async {
-                    if (formKey.currentState!.validate()) {
-                      isLoading = true;
-                      setState(() {});
-                      try {
-                        await logInUser();
-                        showSnackBar(context, 'Success');
-                        Navigator.pushNamed(context, 'ChatPage');
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          showSnackBar(context, 'User not found');
-                        } else if (e.code == 'wrong-password') {
-                          showSnackBar(context, 'Wrong password');
-                        }
-                      } catch (e) {
-                        showSnackBar(context, e.toString());
-                      }
-                      isLoading = false;
-                      setState(() {});
-                    } else {}
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'don\'t have an account ? ',
-                      style: TextStyle(
-                        color: Colors.white,
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'LOGIN',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, 'RegisterPage');
-                      },
-                      child: Text(
-                        'Register',
-                        style:
-                            TextStyle(color: Color(0XFFC7EDE6), fontSize: 16),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                    obscureText: false,
+                    hintText: 'Email',
+                    onChanged: (email) {
+                      this.email = email;
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                    obscureText: true,
+                    hintText: 'Passward',
+                    onChanged: (password) {
+                      this.password = password;
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomButton(
+                    buttonText: 'LOGIN',
+                    onTap: () async {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<LogInCubit>(context)
+                            .logInUser(email: email!, password: password!);
+                      } else {}
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'don\'t have an account ? ',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    )
-                  ],
-                ),
-                Spacer(
-                  flex: 2,
-                ),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, 'RegisterPage');
+                        },
+                        child: Text(
+                          'Register',
+                          style:
+                              TextStyle(color: Color(0XFFC7EDE6), fontSize: 16),
+                        ),
+                      )
+                    ],
+                  ),
+                  Spacer(
+                    flex: 2,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
-
- 
 }

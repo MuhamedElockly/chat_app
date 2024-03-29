@@ -9,4 +9,7 @@ final class LogInSuccess extends LogInState {}
 
 final class LogInLoading extends LogInState {}
 
-final class LogInFailure extends LogInState {}
+final class LogInFailure extends LogInState {
+  String errMessage;
+  LogInFailure({required this.errMessage});
+}
