@@ -13,9 +13,11 @@ class RegisterCubit extends Cubit<RegisterState> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: passward);
+      emit(RegisterSuccess());
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use')
+      if (e.code == 'email-already-in-use') {
         emit(RegisterFailure(errMessage: 'email-already-in-use'));
+      }
     } catch (e) {
       emit(RegisterFailure(errMessage: e.toString()));
     }

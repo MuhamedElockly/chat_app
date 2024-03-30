@@ -20,115 +20,123 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<RegisterCubit, RegisterState>(
+    return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterLoading) {
           isLoading = true;
         } else if (state is RegisterSuccess) {
+          isLoading = false;
           Navigator.pushNamed(context, 'ChatPage');
+          showSnackBar(context, 'Success');
+        } else if (state is RegisterFailure) {
+          isLoading = false;
+          showSnackBar(context, state.errMessage);
         }
       },
-      child: ModalProgressHUD(
-        inAsyncCall: isLoading,
-        child: Scaffold(
-          backgroundColor: kPrimaryColor,
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(
-                    flex: 2,
-                  ),
-                  Image.asset('assets/images/scholar.png'),
-                  Text(
-                    'Scholar Chat',
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.white,
-                      fontFamily: 'pacifico',
+      builder: (BuildContext context, RegisterState state) {
+        return ModalProgressHUD(
+          inAsyncCall: isLoading,
+          child: Scaffold(
+            backgroundColor: kPrimaryColor,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(
+                      flex: 2,
                     ),
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'REGISTER',
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
+                    Image.asset('assets/images/scholar.png'),
+                    Text(
+                      'Scholar Chat',
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: Colors.white,
+                        fontFamily: 'pacifico',
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                    obscureText: false,
-                    onChanged: (data) {
-                      email = data;
-                    },
-                    hintText: 'Email',
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                    obscureText: true,
-                    onChanged: (data) {
-                      passward = data;
-                    },
-                    hintText: 'Passward',
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomButton(
-                      onTap: () async {
-                        if (formKey.currentState!.validate()) {
-                          BlocProvider.of<RegisterCubit>(context)
-                              .registerUser(email: email!, passward: passward!);
-                        } else {}
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'REGISTER',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      obscureText: false,
+                      onChanged: (data) {
+                        email = data;
                       },
-                      buttonText: 'REGISTER'),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'already have an account ? ',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
+                      hintText: 'Email',
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      obscureText: true,
+                      onChanged: (data) {
+                        passward = data;
+                      },
+                      hintText: 'Passward',
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomButton(
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            BlocProvider.of<RegisterCubit>(context)
+                                .registerUser(
+                                    email: email!, passward: passward!);
+                          } else {}
                         },
-                        child: Text(
-                          'LogIn',
-                          style:
-                              TextStyle(color: Color(0XFFC7EDE6), fontSize: 16),
+                        buttonText: 'REGISTER'),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'already have an account ? ',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Spacer(
-                    flex: 2,
-                  ),
-                ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'LogIn',
+                            style: TextStyle(
+                                color: Color(0XFFC7EDE6), fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(
+                      flex: 2,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
