@@ -8,11 +8,8 @@ import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
   final scrollController = ScrollController();
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final user = FirebaseAuth.instance.currentUser;
 
-  CollectionReference messages =
-      FirebaseFirestore.instance.collection('messages');
+
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -68,13 +65,7 @@ class ChatPage extends StatelessWidget {
                   child: TextField(
                     controller: controller,
                     onSubmitted: (value) {
-                      messages.add(
-                        {
-                          'message': value,
-                          'createdAt': DateTime.now(),
-                          'userId': uid
-                        },
-                      );
+                    
                       controller.clear();
                       scrollController.animateTo(
                         0,
