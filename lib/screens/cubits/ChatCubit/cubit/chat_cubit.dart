@@ -15,9 +15,9 @@ class ChatCubit extends Cubit<ChatState> {
   CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
   void sendMessage({required String message}) async {
-    emit(ChatLoading());
+    //emit(ChatLoading());
     messages.add(
-      {'message': message, 'createdAt': DateTime.now(), 'userId': user?.uid},
+       {'message': message, 'createdAt': DateTime.now(), 'userId': user?.uid},
     );
   }
 
