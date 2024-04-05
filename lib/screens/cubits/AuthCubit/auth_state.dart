@@ -27,6 +27,7 @@ final class RegisterSuccess extends AuthState {}
 
 final class RegisterLoading extends AuthState {}
 
+
 final class RegisterFailure extends AuthState {
   String errMessage;
   RegisterFailure({required this.errMessage});
