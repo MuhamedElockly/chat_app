@@ -33,7 +33,7 @@ class ChatApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ChatCubit(),
         )
-        
+    
       ],
       child: MaterialApp(
         routes: {
